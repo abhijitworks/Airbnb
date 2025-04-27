@@ -7,12 +7,15 @@
   </head>
   <body>
     <h1>All Listings</h1>
-    <ul>
+    <form action="/listings/new.ejs" method="get">
+      <button>create new listing</button>
+    </form>
+    <div class="listings">
       <% for (let listing of allListings) { %>
-      <li>
-        <a href="/listing/<%= listing._id %>"> <%= listing.title %> </a>
-      </li>
+      <div class="card">
+        <a href="/listings/<%= listing._id %>"> <%= listing.title %> </a>
+      </div>
       <% } %>
-    </ul>
+    </div>
   </body>
 </html>

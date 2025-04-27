@@ -6,7 +6,7 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>Listing Detail</h1>
+    <h1>Listing Details</h1>
     <ul>
       <li><%= listing.title %></li>
       <li><%= listing.description %></li>
@@ -14,5 +14,7 @@
       <li><%= listing.location %></li>
       <li><%= listing.country %></li>
     </ul>
+    <a href="/listings/<%= listing._id %>/edit">edit listing</a>
+    <a href="/listings">go to all listings</a>
   </body>
 </html>
