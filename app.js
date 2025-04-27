@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const mongo_url = "mongodb://127.0.0.1:27017/travelop";
 const Listing = require("./models/listing.js");
+const path = require("path");
 
 main()
   .then(() => {
@@ -11,25 +12,31 @@ main()
   .catch((err) => {
     console.log(err);
   });
-
 async function main() {
   await mongoose.connect(mongo_url);
 }
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/", (req, res) => {
   res.send("Hi ");
 });
 
-app.get("/testListing", async (req, res) => {
-  let sampleListing = new Listing({
-    title: "My home",
-    desc: "New home",
-    price: 1200,
-    location: "Goa",
-    country: "India",
-  });
-  await sampleListing.save();
-  console.log("Success");
-  res.send("Success");
+//index route
+app.get("/listing", async (req, res) => {
+  const allListings = await Listing.find({});
+  res.render("listings/index.ejs", { allListings });
+});
+
+//show route
+app.get("/listing/:id", async (req, res) => {
+  const { id } = req.params;
+  const listing = await Listing.findById(id);
+  console.log(listing);
+  res.render("listings/show.ejs", { listing });
 });
 
 app.listen(8080, () => {
