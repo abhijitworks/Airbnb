@@ -1,23 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h1>Listing Details</h1>
-    <ul>
-      <li><%= listing.title %></li>
-      <li><%= listing.description %></li>
-      <li><%= listing.price.toLocaleString("en-IN") %></li>
-      <li><%= listing.location %></li>
-      <li><%= listing.country %></li>
-    </ul>
-    <a href="/listings/<%= listing._id %>/edit">edit listing</a>
-    <a href="/listings">go to all listings</a>
-    <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
-      <button>Delete Listing</button>
-    </form>
-  </body>
-</html>
+<% layout("/layouts/boilerplate") %>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+
+      <h1 class="mb-4 text-center fw-bold">Listing Details</h1>
+
+      <div class="card shadow-sm rounded-4">
+        <% if (listing.image && listing.image.url) { %>
+          <img 
+            src="<%= listing.image.url %>" 
+            class="card-img-top img-fluid" 
+            alt="<%= listing.title %>"
+            style="height: 300px; object-fit: cover;"
+          />
+        <% } %>
+
+        <div class="card-body">
+          <h2 class="card-title mb-3"><%= listing.title %></h2>
+
+          <ul class="list-group list-group-flush mb-4">
+            <li class="list-group-item"><strong>Description:</strong> <%= listing.description %></li>
+            <li class="list-group-item"><strong>Price:</strong> ₹<%= listing.price.toLocaleString("en-IN") %></li>
+            <li class="list-group-item"><strong>Location:</strong> <%= listing.location %></li>
+            <li class="list-group-item"><strong>Country:</strong> <%= listing.country %></li>
+          </ul>
+
+          <div class="d-flex gap-3">
+            <a href="/listings/<%= listing._id %>/edit" class="btn btn-warning fw-bold flex-fill">Edit Listing</a>
+            <a href="/listings" class="btn btn-secondary fw-bold flex-fill">All Listings</a>
+          </div>
+
+          <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" class="mt-3">
+            <button type="submit" class="btn btn-danger w-100 fw-bold">Delete Listing</button>
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

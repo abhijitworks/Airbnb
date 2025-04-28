@@ -5,6 +5,7 @@ const mongo_url = "mongodb://127.0.0.1:27017/travelop";
 const Listing = require("./models/listing.js");
 const path = require("path");
 const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
 
 main()
   .then(() => {
@@ -22,6 +23,8 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.engine('ejs', ejsMate);
+
 
 app.get("/", (req, res) => {
   res.send("Hi ");
@@ -35,7 +38,7 @@ app.get("/listings", async (req, res) => {
 
 //new route
 app.get("/listings/new.ejs", async (req, res) => {
-  res.render("listings/new.ejs");
+  res.render("listings/new");
 });
 
 //show route
