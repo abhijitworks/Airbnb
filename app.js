@@ -23,8 +23,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-app.engine('ejs', ejsMate);
-
+app.engine("ejs", ejsMate);
 
 app.get("/", (req, res) => {
   res.send("Hi ");
@@ -73,7 +72,14 @@ app.get("/listings/:id/edit", async (req, res) => {
 //update route
 app.put("/listings/:id", async (req, res) => {
   const { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  const listingData = { ...req.body.listing };
+
+  // Ensure image is always an object with a url property
+  if (listingData.image) {
+    listingData.image = { url: listingData.image, filename: "listingimage" };
+  }
+
+  await Listing.findByIdAndUpdate(id, listingData);
   res.redirect(`/listings/${id}`);
 });
 
