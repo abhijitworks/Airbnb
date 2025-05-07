@@ -7,7 +7,6 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./Utils/wrapAsync.js");
-const { listingSchema } = require("./schema.js");
 
 main()
   .then(() => {
