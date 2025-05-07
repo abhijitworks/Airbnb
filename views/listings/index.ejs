@@ -7,9 +7,10 @@
     <% for (let listing of allListings) { %>
     <div class="col">
       <div class="card h-100 shadow-sm rounded-4 overflow-hidden">
-        <% if (listing.image && listing.image.url) { %>
+        <% if (listing.image) { %>
+
         <img
-          src="<%= listing.image.url %>"
+          src="<%= listing.image.url?listing.image.url : listing.image %>"
           class="card-img-top img-fluid"
           alt="<%= listing.title %>"
           style="height: 200px; object-fit: cover"
@@ -21,7 +22,7 @@
           alt="default listing image"
           style="height: 200px; object-fit: cover"
         />
-        <% } %>
+        <%- console.log(listing.image) %> <% } %>
         <div class="card-body d-flex flex-column">
           <h5 class="card-title fw-bold"><%= listing.title %></h5>
           <p class="card-text text-truncate" title="<%= listing.description %>">

@@ -6,9 +6,9 @@
       <h1 class="mb-4 text-center fw-bold">Listing Details</h1>
 
       <div class="card shadow-sm rounded-4">
-        <% if (listing.image && listing.image.url) { %>
+        <%-console.log(listing.image)%> <% if (listing.image) { %>
         <img
-          src="<%= listing.image.url %>"
+          src="<%= listing.image.url?listing.image.url : listing.image %>"
           class="card-img-top img-fluid"
           alt="<%= listing.title %>"
           style="height: 300px; object-fit: cover"

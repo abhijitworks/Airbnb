@@ -7,6 +7,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./Utils/wrapAsync.js");
+const { listingSchema } = require("./schema.js");
 
 main()
   .then(() => {
@@ -33,6 +34,10 @@ app.get("/", (req, res) => {
 //index route
 app.get("/listings", async (req, res) => {
   const allListings = await Listing.find({});
+  allListings.forEach((listing) => {
+    if (!listing.price) listing.price = 0;
+  });
+  console.log(allListings);
   res.render("listings/index.ejs", { allListings });
 });
 
@@ -60,9 +65,13 @@ app.get("/listings/:id", async (req, res) => {
 app.post(
   "/listings",
   wrapAsync(async (req, res, next) => {
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    res.redirect("/listings");
+    try {
+      const newListing = new Listing(req.body.listing);
+      await newListing.save();
+      res.redirect("/listings");
+    } catch (error) {
+      res.json(error);
+    }
   })
 );
 
